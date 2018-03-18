@@ -5,8 +5,7 @@ app.config.from_object('websiteconfig')
 
 from reef import utils
 
-from domain import *
+from model import *
 
 from reef import routes
 from reef import errorhandlers
-
