@@ -9,5 +9,7 @@ setup(
     install_requires=[
         'flask',
         'uwsgi',
+        'flask-wtf',
+        'flask-bootstrap',
     ],
 )

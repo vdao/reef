@@ -1,5 +1,6 @@
 include reef/schema.sql
 include reef.ini
+include config.py
 graft reef/static
 graft reef/templates
 global-exclude *.pyc
