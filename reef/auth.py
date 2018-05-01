@@ -6,12 +6,15 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from reef.db import get_db
+from reef.forms.auth.login import LoginForm
+from reef.forms.auth.register import RegisterForm
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
-    if request.method == 'POST':
+    form = RegisterForm()
+    if form.validate_on_submit():
         username = request.form['username']
         password = request.form['password']
         db = get_db()
@@ -34,16 +37,18 @@ def register():
             db.commit()
             return redirect(url_for('auth.login'))
 
-        flash(error)
+        flash(error, 'danger')
 
-    return render_template('auth/register.html')
+    return render_template('auth/register.html', form=form)
 
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+
         db = get_db()
         error = None
         user = db.execute(
@@ -60,9 +65,9 @@ def login():
             session['user_id'] = user['id']
             return redirect(url_for('index'))
 
-        flash(error)
+        flash(error, 'danger')
 
-    return render_template('auth/login.html')
+    return render_template('auth/login.html', form=form)
 
 
 @bp.before_app_request
@@ -83,7 +88,7 @@ def logout():
     return redirect(url_for('index'))
 
 
-def login_required(view):
+def     login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
         if g.user is None:

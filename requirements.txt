@@ -1,4 +1,6 @@
 Flask==1.0.1
+flask-wtf
+flask-bootstrap
 pytest
 coverage
 wheel

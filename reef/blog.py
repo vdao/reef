@@ -32,7 +32,7 @@ def create():
             error = 'Title is required.'
 
         if error is not None:
-            flash(error)
+            flash(error, 'danger')
         else:
             db = get_db()
             db.execute(
@@ -77,7 +77,7 @@ def update(id):
             error = 'Title is required.'
 
         if error is not None:
-            flash(error)
+            flash(error, 'danger')
         else:
             db = get_db()
             db.execute(
