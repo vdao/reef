@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 
@@ -34,11 +34,6 @@ def create_app(test_config=None):
     database.init_app(app)
     migration = Migrate(app, database)
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
     from . import auth
     app.register_blueprint(auth.bp)
 
@@ -46,5 +41,14 @@ def create_app(test_config=None):
     app.register_blueprint(blog.bp)
 
     app.add_url_rule('/', endpoint='index')
+
+    @app.errorhandler(404)
+    def not_found_error(error):
+        return render_template('404.html'), 404
+
+    @app.errorhandler(500)
+    def internal_error(error):
+        database.session.rollback()
+        return render_template('500.html'), 500
 
     return app
