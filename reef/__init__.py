@@ -18,10 +18,6 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
     if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_mapping(
-            DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
-        )
         app.config.from_object(Config)
         app.config.from_pyfile('deploy-config.py', silent=True)
     else:
@@ -42,9 +38,6 @@ def create_app(test_config=None):
     @app.route('/hello')
     def hello():
         return 'Hello, World!'
-
-    from . import db
-    db.init_app(app)
 
     from . import auth
     app.register_blueprint(auth.bp)
