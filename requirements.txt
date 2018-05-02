@@ -1,6 +1,8 @@
 Flask==1.0.1
 flask-wtf
 flask-bootstrap
+flask-sqlalchemy
+flask-migrate
 pytest
 coverage
 wheel
