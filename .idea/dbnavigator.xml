@@ -24,8 +24,8 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="9a5f4c61-b092-4c10-936e-d641a5461199">
-        <schema name="main" object-types="column, constraint, index, table, dataset trigger, view" />
+      <connection connection-id="a8dbf50e-18f0-4186-80f7-5dc306540738">
+        <schema name="main" object-types="table, view" />
       </connection>
     </loaded-nodes>
   </component>
@@ -36,10 +36,14 @@
     <connection id="9a5f4c61-b092-4c10-936e-d641a5461199">
       <console name="Connection 1" type="STANDARD" />
     </connection>
+    <connection id="a8dbf50e-18f0-4186-80f7-5dc306540738">
+      <console name="Connection 2" type="STANDARD" />
+    </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="ba4fb465-1a37-4c31-ae9a-47e582738133" />
     <connection id="9a5f4c61-b092-4c10-936e-d641a5461199" />
+    <connection id="a8dbf50e-18f0-4186-80f7-5dc306540738" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
     <filter-list connection-id="9a5f4c61-b092-4c10-936e-d641a5461199" dataset="main.user" active-filter-id="" />
@@ -165,6 +169,86 @@
           <database value="" />
           <files>
             <file path="$PROJECT_DIR$/app.db" schema="main" />
+          </files>
+          <os-authentication value="false" />
+          <empty-password value="false" />
+          <user value="" />
+          <password value="" />
+        </database>
+        <properties>
+          <auto-commit value="false" />
+        </properties>
+        <ssh-settings>
+          <active value="false" />
+          <proxy-host value="" />
+          <proxy-port value="22" />
+          <proxy-user value="" />
+          <proxy-password value="" />
+          <auth-type value="PASSWORD" />
+          <key-file value="" />
+          <key-passphrase value="" />
+        </ssh-settings>
+        <details>
+          <charset value="UTF-8" />
+          <session-management value="true" />
+          <ddl-file-binding value="true" />
+          <database-logging value="false" />
+          <connect-automatically value="true" />
+          <restore-workspace value="true" />
+          <restore-workspace-deep value="true" />
+          <environment-type value="default" />
+          <idle-time-to-disconnect value="30" />
+          <password-expiry-time value="10" />
+          <max-connection-pool-size value="7" />
+          <alternative-statement-delimiter value="" />
+        </details>
+        <object-filters hide-empty-schemas="false">
+          <object-type-filter use-master-settings="true">
+            <object-type name="SCHEMA" enabled="true" />
+            <object-type name="USER" enabled="true" />
+            <object-type name="ROLE" enabled="true" />
+            <object-type name="PRIVILEGE" enabled="true" />
+            <object-type name="CHARSET" enabled="true" />
+            <object-type name="TABLE" enabled="true" />
+            <object-type name="VIEW" enabled="true" />
+            <object-type name="MATERIALIZED_VIEW" enabled="true" />
+            <object-type name="NESTED_TABLE" enabled="true" />
+            <object-type name="COLUMN" enabled="true" />
+            <object-type name="INDEX" enabled="true" />
+            <object-type name="CONSTRAINT" enabled="true" />
+            <object-type name="DATASET_TRIGGER" enabled="true" />
+            <object-type name="DATABASE_TRIGGER" enabled="true" />
+            <object-type name="SYNONYM" enabled="true" />
+            <object-type name="SEQUENCE" enabled="true" />
+            <object-type name="PROCEDURE" enabled="true" />
+            <object-type name="FUNCTION" enabled="true" />
+            <object-type name="PACKAGE" enabled="true" />
+            <object-type name="TYPE" enabled="true" />
+            <object-type name="TYPE_ATTRIBUTE" enabled="true" />
+            <object-type name="ARGUMENT" enabled="true" />
+            <object-type name="DIMENSION" enabled="true" />
+            <object-type name="CLUSTER" enabled="true" />
+            <object-type name="DBLINK" enabled="true" />
+          </object-type-filter>
+          <object-name-filters />
+        </object-filters>
+      </connection>
+      <connection id="a8dbf50e-18f0-4186-80f7-5dc306540738" active="true">
+        <database>
+          <name value="Connection 2" />
+          <description value="" />
+          <database-type value="SQLITE" />
+          <config-type value="BASIC" />
+          <database-version value="3.0" />
+          <driver-source value="BUILTIN" />
+          <driver-library value="" />
+          <driver value="" />
+          <url-type value="FILE" />
+          <host value="" />
+          <port value="" />
+          <database value="" />
+          <files>
+            <file path="$PROJECT_DIR$/tests/test_project.db" schema="main" />
           </files>
           <os-authentication value="false" />
           <empty-password value="false" />

@@ -1,6 +1,6 @@
 import pytest
 from flask import g, session
-from reef.db import get_db
+from reef.model import *
 
 
 def test_register(client, app):
@@ -11,15 +11,13 @@ def test_register(client, app):
     assert 'http://localhost/auth/login' == response.headers['Location']
 
     with app.app_context():
-        assert get_db().execute(
-            "select * from user where username = 'a'",
-        ).fetchone() is not None
+        assert User.query.filter_by(username='a').first() is not None
 
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
-    ('', '', b'Username is required.'),
-    ('a', '', b'Password is required.'),
-    ('test', 'test', b'already registered'),
+        ('', '', b'Username is required.'),
+        ('a', '', b'Password is required.'),
+        ('test', 'test', b'already registered'),
 ))
 def test_register_validate_input(client, username, password, message):
     response = client.post(
@@ -41,8 +39,8 @@ def test_login(client, auth):
 
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
-    ('a', 'test', b'Incorrect username.'),
-    ('test', 'a', b'Incorrect password.'),
+        ('a', 'test', b'Incorrect username.'),
+        ('test', 'a', b'Incorrect password.'),
 ))
 def test_login_validate_input(auth, username, password, message):
     response = auth.login(username, password)

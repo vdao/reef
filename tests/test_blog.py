@@ -1,5 +1,6 @@
 import pytest
-from reef.db import get_db
+from reef import database
+from reef.model import *
 
 
 def test_index(client, auth):
@@ -17,9 +18,9 @@ def test_index(client, auth):
 
 
 @pytest.mark.parametrize('path', (
-    '/create',
-    '/1/update',
-    '/1/delete',
+        '/create',
+        '/1/update',
+        '/1/delete',
 ))
 def test_login_required(client, path):
     response = client.post(path)
@@ -29,9 +30,9 @@ def test_login_required(client, path):
 def test_author_required(app, client, auth):
     # change the post author to another user
     with app.app_context():
-        db = get_db()
-        db.execute('UPDATE post SET author_id = 2 WHERE id = 1')
-        db.commit()
+        database.session.query(Post).filter(Post.id == 1) \
+            .update({'author_id': 2})
+        database.session.commit()
 
     auth.login()
     # current user can't modify other user's post
@@ -42,8 +43,8 @@ def test_author_required(app, client, auth):
 
 
 @pytest.mark.parametrize('path', (
-    '/2/update',
-    '/2/delete',
+        '/2/update',
+        '/2/delete',
 ))
 def test_exists_required(client, auth, path):
     auth.login()
@@ -67,14 +68,13 @@ def test_update(client, auth, app):
     client.post('/1/update', data={'title': 'updated', 'body': ''})
 
     with app.app_context():
-        db = get_db()
-        post = db.execute('SELECT * FROM post WHERE id = 1').fetchone()
+        post = Post.query.get(1).first()
         assert post['title'] == 'updated'
 
 
 @pytest.mark.parametrize('path', (
-    '/create',
-    '/1/update',
+        '/create',
+        '/1/update',
 ))
 def test_create_update_validate(client, auth, path):
     auth.login()
@@ -88,6 +88,5 @@ def test_delete(client, auth, app):
     assert response.headers['Location'] == 'http://localhost/'
 
     with app.app_context():
-        db = get_db()
-        post = db.execute('SELECT * FROM post WHERE id = 1').fetchone()
+        post = Post.query.get(1).first()
         assert post is None
