@@ -20,11 +20,6 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
-    if not app.debug:
-        file_handler = FileHandler(app.config['LOG_FILE'])
-        file_handler.setLevel(logging.INFO)
-        app.logger.addHandler(file_handler)
-
     app.logger.info('Starting application at %s' % os.getcwd())
 
     app.logger.info('Trying to load properties from config.py')
@@ -36,6 +31,10 @@ def create_app(test_config=None):
         app.logger.info('Trying to load the test config')
         app.config.from_mapping(test_config)
 
+    if not app.debug:
+        file_handler = FileHandler(app.config['LOG_FILE'])
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
 
     app.logger.info('Ensure the instance folder exists')
     try:
