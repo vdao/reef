@@ -1,5 +1,3 @@
-from flask_migrate import Migrate, upgrade
-from reef import create_app, db
+from reef import create_app
 
 application = create_app()
-migrate = Migrate(application, db)
