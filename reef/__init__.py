@@ -20,19 +20,24 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
-    app.config.from_object(Config)
-    if test_config is None:
-        app.config.from_pyfile('deploy-config.py', silent=True)
-    else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
-
     if not app.debug:
         file_handler = FileHandler(app.config['LOG_FILE'])
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
 
-    # ensure the instance folder exists
+    app.logger.info('Starting application at %s' % os.getcwd())
+
+    app.logger.info('Trying to load properties from config.py')
+    app.config.from_object(Config)
+    if test_config is None:
+        app.logger.info('Trying to load properties from deploy-config.py')
+        app.config.from_pyfile('deploy-config.py', silent=True)
+    else:
+        app.logger.info('Trying to load the test config')
+        app.config.from_mapping(test_config)
+
+
+    app.logger.info('Ensure the instance folder exists')
     try:
         os.makedirs(app.instance_path)
     except OSError:
@@ -42,6 +47,7 @@ def create_app(test_config=None):
     database.init_app(app)
     migration = Migrate(app, database)
 
+    app.logger.info('Loading blueprints')
     from . import auth
     app.register_blueprint(auth.bp)
 
