@@ -20,7 +20,7 @@ from flask.logging import default_handler
 
 from logging import FileHandler, StreamHandler, Formatter
 
-formatter = Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
+formatter = Formatter('[%(asctime)s] %(levelname)s in %(module)s:%(lineno)d %(message)s')
 
 file_handler = FileHandler('application.log')
 file_handler.setLevel(logging.INFO)
@@ -31,8 +31,14 @@ default_handler.setFormatter(formatter)
 root = logging.getLogger()
 root.setLevel(logging.INFO)
 
-root.addHandler(default_handler)
-root.addHandler(file_handler)
+for logger in (
+    root,
+    logging.getLogger('werkzeug')
+):
+    if not logging.root.handlers:
+        logger.setLevel(logging.INFO)
+        logger.addHandler(default_handler)
+        logger.addHandler(file_handler)
 
 def create_app(test_config=None):
     # create and configure the app
