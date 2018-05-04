@@ -1,9 +1,9 @@
 import os
+
 import logging
+from logging.config import dictConfig
 
-from logging import FileHandler
-
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 
@@ -15,6 +15,24 @@ bootstrap = Bootstrap()
 database = SQLAlchemy()
 
 import reef.model
+
+from flask.logging import default_handler
+
+from logging import FileHandler, StreamHandler, Formatter
+
+formatter = Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
+
+file_handler = FileHandler('application.log')
+file_handler.setLevel(logging.INFO)
+file_handler.setFormatter(formatter)
+
+default_handler.setFormatter(formatter)
+
+root = logging.getLogger()
+root.setLevel(logging.INFO)
+
+root.addHandler(default_handler)
+root.addHandler(file_handler)
 
 def create_app(test_config=None):
     # create and configure the app
@@ -30,11 +48,6 @@ def create_app(test_config=None):
     else:
         app.logger.info('Trying to load the test config')
         app.config.from_mapping(test_config)
-
-    if not app.debug:
-        file_handler = FileHandler(app.config['LOG_FILE'])
-        file_handler.setLevel(logging.INFO)
-        app.logger.addHandler(file_handler)
 
     app.logger.info('Ensure the instance folder exists')
     try:
