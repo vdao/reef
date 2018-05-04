@@ -1,4 +1,7 @@
 import os
+import logging
+
+from logging import FileHandler
 
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
@@ -23,6 +26,11 @@ def create_app(test_config=None):
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
+
+    if not app.debug:
+        file_handler = FileHandler(app.config['LOG_FILE'])
+        file_handler.setLevel(logging.INFO)
+        app.logger.addHandler(file_handler)
 
     # ensure the instance folder exists
     try:

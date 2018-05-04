@@ -36,7 +36,6 @@ def app(request):
 
     request.addfinalizer(teardown)
     db(request)
-
     return app
 
 
