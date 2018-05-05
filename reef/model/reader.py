@@ -7,7 +7,7 @@ class Reader(db.Model):
     email = db.Column(db.String(100))
     phone = db.Column(db.String(100))
     notes = db.Column(db.String(1000))
-
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('readers', lazy='dynamic'))
 
     book_records = db.relationship('BookRecord', backref='reader', lazy='dynamic')

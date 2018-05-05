@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Books{% endblock %}</h1>
+{% endblock %}
+
+{% block mycontent %}
+<div class="panel panel-default">
+    <!-- Default panel contents -->
+<!--
+    <div class="panel-heading">Posts</div>
+-->
+    <div class="panel-body">
+        <p>Books avalilable</p>
+        <p>
+            <a class="action" href="{{ url_for('books.create') }}"><span
+                    class="btn btn-success pull-right">Создать</span></a>
+        </p>
+    </div>
+
+    <!-- Table -->
+    <table class="table">
+        <thead>
+        <tr>
+            <th class="hidden-xs">id</th>
+            <th>author</th>
+            <th>title</th>
+            <th>description</th>
+            <th>code</th>
+            <th><em class="fa fa-cog"></em></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+        <tr>
+            <td>{{ book['id'] }}</td>
+            <td>{{ book['author'] }}</td>
+            <td>{{ book['title'] }}</td>
+            <td>{{ book['description'] }}</td>
+            <td>{{ book['code'] }}</td>
+            <td>{% if g.user['id'] == book['owner_id'] %}
+                <a class="action" href="{{ url_for('books.update', id=book['id']) }}">Edit</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

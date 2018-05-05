@@ -7,13 +7,13 @@ from reef.auth import login_required
 from reef.model import *
 from reef import database
 
-bp = Blueprint('blog', __name__)
+bp = Blueprint('books', __name__, url_prefix='/books')
 
 
 @bp.route('/')
+@login_required
 def index():
-    posts = Post.query.all()
-    return render_template('blog/index.html', posts=posts)
+    return render_template('books/index.html', books=(g.user.books))
 
 
 @bp.route('/create', methods=('GET', 'POST'))
@@ -33,9 +33,9 @@ def create():
             post = Post(title=title, body=body, author=g.user)
             database.session.add(post)
             database.session.commit()
-            return redirect(url_for('blog.index'))
+            return redirect(url_for('books.index'))
 
-    return render_template('blog/create.html')
+    return render_template('books/create.html')
 
 
 def get_post(id, check_author=True):
@@ -66,12 +66,12 @@ def update(id):
         if error is not None:
             flash(error, 'danger')
         else:
-            database.session.query(Post).filter(Post.id == id)\
+            database.session.query(Post).filter(Post.id == id) \
                 .update({'title': title, 'body': body})
             database.session.commit()
-            return redirect(url_for('blog.index'))
+            return redirect(url_for('books.index'))
 
-    return render_template('blog/update.html', post=post)
+    return render_template('books/update.html', post=post)
 
 
 @bp.route('/<int:id>/delete', methods=('POST',))
@@ -79,4 +79,4 @@ def update(id):
 def delete(id):
     database.session.query(Post).filter(Post.id == id).delete()
     database.session.commit()
-    return redirect(url_for('blog.index'))
+    return redirect(url_for('books.index'))

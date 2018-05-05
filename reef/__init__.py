@@ -10,7 +10,6 @@ from flask_migrate import Migrate, upgrade
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
-
 from config import Config
 
 bootstrap = Bootstrap()
@@ -65,10 +64,25 @@ def create_app(test_config=None):
     from . import auth
     app.register_blueprint(auth.bp)
 
-    from . import blog
-    app.register_blueprint(blog.bp)
+    from . import books
+    app.register_blueprint(books.bp)
 
-    app.add_url_rule('/', endpoint='index')
+    from . import readers
+    app.register_blueprint(readers.bp)
+
+    from . import catalog
+    app.register_blueprint(catalog.bp)
+
+    from . import calendar
+    app.register_blueprint(calendar.bp)
+
+    from . import settings
+    app.register_blueprint(settings.bp)
+
+    from . import statistics
+    app.register_blueprint(statistics.bp)
+
+    app.add_url_rule('/', endpoint='catalog.index')
 
     @app.errorhandler(404)
     def not_found_error(error):
@@ -80,10 +94,11 @@ def create_app(test_config=None):
         return render_template('500.html'), 500
 
     admin = Admin(app, name='reef-admin', template_mode='bootstrap3')
+    admin.add_view(ModelView(reef.model.Reader, database.session))
     admin.add_view(ModelView(reef.model.User, database.session))
     admin.add_view(ModelView(reef.model.Post, database.session))
     admin.add_view(ModelView(reef.model.Book, database.session))
     admin.add_view(ModelView(reef.model.BookRecord, database.session))
-    admin.add_view(ModelView(reef.model.Reader, database.session))
+    admin.add_view(ModelView(reef.model.Category, database.session))
 
     return app
