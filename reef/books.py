@@ -7,13 +7,24 @@ from reef.auth import login_required
 from reef.model import *
 from reef import database
 
+import flask
+
 bp = Blueprint('books', __name__, url_prefix='/books')
 
 
 @bp.route('/')
 @login_required
 def index():
-    return render_template('books/index.html', books=(g.user.books))
+    page = request.args.get('page', 1, type=int)
+    items_per_page = flask.current_app.config['ITEMS_PER_PAGE']
+    page_content = g.user.books.paginate(page, items_per_page, False)
+    next_url = url_for('books.index', page=page_content.next_num) \
+        if page_content.has_next else None
+    prev_url = url_for('books.index', page=page_content.prev_num) \
+        if page_content.has_prev else None
+
+    return render_template('books/index.html', books=page_content.items,
+                           next_url=next_url, prev_url=prev_url)
 
 
 @bp.route('/create', methods=('GET', 'POST'))

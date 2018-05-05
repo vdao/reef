@@ -1,7 +1,18 @@
 {% extends 'base.html' %}
 
 {% block mycontent %}
-<div class="panel panel-default">
-    <h1>Placeholder calendar</h1>
+<div class="row">
+    <div class="col-md-5 col-sm-5 col-xs-12 gutter">
+        <div class="panel panel-default">
+            <div class="panel-heading">Экспорт\Импорт</div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="{{ url_for('settings.upload')}}"><span class="glyphicon glyphicon-open-file">Импорт данных из csv</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-save-file">Экспорт данных в csv</a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -1,7 +1,7 @@
 from reef import database as db
 from datetime import datetime
 
-
+# TODO номер полки или комментарий
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(300))

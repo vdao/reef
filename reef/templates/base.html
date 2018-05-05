@@ -14,19 +14,21 @@ $(document).ready(function(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 </script>
 {% endblock %}
+
+{% macro pager(prev_url, next_url) -%}
+<nav>
+    <ul class="pager">
+        <li class="previous {{'' if prev_url else 'disabled'}}">
+            <a href="{{ prev_url if prev_url else '#'}}"><span aria-hidden="true">&larr;</span> Previous</a>
+        </li>
+        <li class="next {{'' if next_url else 'disabled'}}">
+            <a href="{{ next_url if next_url else '#'}}">Next<span aria-hidden="true">&rarr;</span></a>
+        </li>
+    </ul>
+</nav>
+{%- endmacro %}
 
 {% block content %}
 
@@ -139,17 +141,19 @@ $(document).ready(function(){
                     </div>
                 </header>
             </div>
-            <div class="user-dashboard">
-                <h1 class="page-header">{% block header %}{% endblock %}</h1>
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                {% for category, message in messages %}
-                <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
-                {% endfor %}
-                {% endif %}
-                {% endwith %}
 
-                {% block mycontent %}{% endblock %}
+            <div class="container-fluid display-table">
+                <div class="row display-table-row">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                    {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+                    {% endfor %}
+                    {% endif %}
+                    {% endwith %}
+
+                    {% block mycontent %}{% endblock %}
+                </div>
             </div>
         </div>
     </div>

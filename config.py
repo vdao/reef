@@ -18,3 +18,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     LOG_FILE = 'application.log'
+
+    UPLOAD_FOLDER = os.path.join(basedir, 'reef/static/uploads')
+
+    ITEMS_PER_PAGE = 50
