@@ -83,5 +83,7 @@ def create_app(test_config=None):
     admin.add_view(ModelView(reef.model.User, database.session))
     admin.add_view(ModelView(reef.model.Post, database.session))
     admin.add_view(ModelView(reef.model.Book, database.session))
+    admin.add_view(ModelView(reef.model.BookRecord, database.session))
+    admin.add_view(ModelView(reef.model.Reader, database.session))
 
     return app
