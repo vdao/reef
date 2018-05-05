@@ -6,8 +6,10 @@ from logging.config import dictConfig
 from flask import Flask, render_template, request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
-
 from flask_migrate import Migrate, upgrade
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
 
 from config import Config
 
@@ -76,5 +78,10 @@ def create_app(test_config=None):
     def internal_error(error):
         database.session.rollback()
         return render_template('500.html'), 500
+
+    admin = Admin(app, name='reef-admin', template_mode='bootstrap3')
+    admin.add_view(ModelView(reef.model.User, database.session))
+    admin.add_view(ModelView(reef.model.Post, database.session))
+    admin.add_view(ModelView(reef.model.Book, database.session))
 
     return app

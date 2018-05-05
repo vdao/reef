@@ -8,6 +8,7 @@ class User(db.Model):
     password = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     books = db.relationship('Book', backref='owner', lazy='dynamic')
+    readers = db.relationship('BookRecord', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
