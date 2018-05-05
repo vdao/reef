@@ -1,8 +1,15 @@
-class Book():
+from reef import database as db
+from datetime import datetime
 
-    def __init__(self, author, title):
-        self.author = author
-        self.title = title
+
+class Book(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String(300))
+    title = db.Column(db.String(300))
+    description = db.Column(db.String(1000))
+    code = db.Column(db.String(30), index=True, unique=True)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return "Book(author='{}', title='{}')".format(self.author, self.title)
+        return "Book(id='{}', author='{}', title='{}')".format(
+            self.id, self.author, self.title)
