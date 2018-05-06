@@ -8,3 +8,6 @@ pytest
 coverage
 wheel
 uwsgi
+pybarcode
+pillow
+Pypdf2

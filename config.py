@@ -20,5 +20,6 @@ class Config:
     LOG_FILE = 'application.log'
 
     UPLOAD_FOLDER = os.path.join(basedir, 'reef/static/uploads')
+    GENERATED_FOLDER = os.path.join(basedir, 'reef/static/generated')
 
     ITEMS_PER_PAGE = 50

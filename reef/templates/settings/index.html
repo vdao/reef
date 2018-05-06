@@ -2,7 +2,7 @@
 
 {% block mycontent %}
 <div class="row">
-    <div class="col-md-5 col-sm-5 col-xs-12 gutter">
+    <div class="col-md-6 col-sm-6 col-xs-12 gutter">
         <div class="panel panel-default">
             <div class="panel-heading">Экспорт\Импорт</div>
             <div class="panel-body">
@@ -11,7 +11,16 @@
                     <li><a href="#"><span class="glyphicon glyphicon-save-file">Экспорт данных в csv</a></li>
                 </ul>
             </div>
-
+        </div>
+    </div>
+    <div class="col-md-6 col-sm-6 col-xs-12 gutter">
+        <div class="panel panel-default">
+            <div class="panel-heading"><span class="glyphicon glyphicon-barcode"></span>Печать этикеток</div>
+            <div class="panel-body">
+                <ul>
+                    <li><a href="{{ url_for('settings.print_labels')}}">Печать этикеток</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
